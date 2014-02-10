@@ -5,7 +5,7 @@ LDFLAGS =
 LDLIBS = -lm
 
 # Turn on optimisations
-CPPFLAGS = $(CPPFLAGS) /O2
+CPPFLAGS += /O2
 
 # TODO : Indicate where you have put the TBB installer
 TBB_DIR = <where-is-it?>
