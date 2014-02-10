@@ -77,10 +77,12 @@ backwards transforms.
 
 In the src directory, there are two fourier transform
 implementations, and two programs:
+
 1. test_fourier_transform, which will run a number of
    simple tests on a given transform to check it works.
    The level of acceptable error in the results is
    defined as 1e-9 (which is quite high).
+   
 2. time_fourier_transform, which will time a given
    transform for increasing transform sizes with a given
    level of allowed parallelism.
