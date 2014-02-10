@@ -123,7 +123,7 @@ intrinsic complexity.
 2. Using tbb::parallel\_for in direct\_fourier\_transform
 ======================================================
 
-The file src/direct_fourier_transform.cpp contains a classic
+The file `src/direct_fourier_transform.cpp` contains a classic
 discrete fourier transform, which takes O(n^2) operations to
 do an n-point fourier transform. The structure of this
 code is essentially:
@@ -200,10 +200,10 @@ need a way of distuinguishing your transform from
 anyone elses (in principle I should be able to create
 one giant executable containing everyone in the
 class's transforms). The basic framework uses the namespace
-"hpce", but your classes will live in the namespace
-"hpce::your_login", and the source files in `src/your_login`.
-For example, my namespace is "hpce::dt10", and my
-source files go in "src/dt10".
+`hpce`, but your classes will live in the namespace
+`hpce::your_login`, and the source files in `src/your_login`.
+For example, my namespace is `hpce::dt10`, and my
+source files go in `src/dt10`.
 
 There are three steps in this process:
 1. Creating the new fourier transform class
@@ -218,12 +218,12 @@ Copy `src/direct_fourier_transform.hpp` into a new
 file called `src/your_login/direct_fourier_transform_parfor.cpp`.
 Modify the new file so that the contained class is called
 `hpce::your_login::direct_fourier_transform_parfor`, and reports
-`hpce.your_login.direct_fourier_transform_parfor` from name(). Apart
+`hpce.your_login.direct_fourier_transform_parfor` from `name()`. Apart
 from renaming, you don't need to change any functionality yet.
 
 To declare something in a nested namespace, simply
 insert another namespace declaration inside the existing
-one. For example, if you currently have `hpce::my_class'':
+one. For example, if you currently have `hpce::my_class`:
 
     namespace hpce{
 	  class my_class{
@@ -272,7 +272,7 @@ registers the factory.
 At this point, you should find that your new implementation
 is listed if you build `test_fourier_transform` and do:
 
-    test_fourier_transform "hpce/your_login/direct_fourier_transform_parfor"
+    test_fourier_transform hpce.your_login.direct_fourier_transform_parfor
 
 Hopefully your implementation still works, as so far the
 execution will be identical.
@@ -280,7 +280,7 @@ execution will be identical.
 ### Add the parallel_for loop
 
 You need to rewrite the outer loop in both `forwards_impl` and `backwards_impl`,
-using the transformation of for loop to tbb::parallel_for shown previously. I would
+using the transformation of for loop to `tbb::parallel_for` shown previously. I would
 suggest doing one, running the tests, and then doing the other. You'll
 need to make sure that you include the appropriate header for parallel_loop from
 TBB at the top of the file, so that the function can be found. The linker path
@@ -395,21 +395,22 @@ iteration we have:
 1. w=1*wn
 2. w=1*wn*wn
 3. w=1*wn*wn*wn
-i. w=wn^i
+
+Generalising, we find that for iteration i, w=wn^i.
 
 Hopefully it is obvious that raising something to the
 power of i takes substantially less than i operations.
 Try calculating (1+1e-8)^1e8 in matlab, and notice:
 
-1. It is almost equal to e. Nice.
+1. It is almost equal to _e_. Nice.
 2. It clearly does not take anything like 1e8 operations to calculate.
 
-In C++ the std::complex class supports the pow operator,
+In C++ the std::complex class supports the `std::pow` operator,
 which will raise a complex number to a real scalar, which
 can be used to jump ahead in the computation. In principle
 we could use this property to make the loops completely
 independent, but this will likely slow things down, as
-pow is very expensive. Instead we can use the idea
+powering is quite expensive (compared to one multiply). Instead we can use the idea
 of _agglomeration_, which means instead of reducing the
 code to the finest grain parallel tasks we can, we'll
 group some of them into sequential tasks to reduce
@@ -445,7 +446,7 @@ K=1).
 Create a new class based on `src/fast_fourier_transform.cpp`, with:
 - File name: `src/your_login/fast_fourier_transform_parfor.cpp`
 - Class name: `hpce::your_login::fast_fourier_transform_parfor`
-- Display name: `hpce/your_login/fast_fourier_transform_parfor`
+- Display name: `hpce.your_login.fast_fourier_transform_parfor`
 
 This class should be based on the sequential version, not on the
 task based version, so there is only one kind of parallelism.
@@ -485,13 +486,13 @@ as this will expose a lot of parallelism.
 We now have two types of parallelism that we know works,
 so the natural choice is to combined them together.
 Create a new implementation called `fast_fourier_transform_combined`,
-usng the conventions for naming from before, and integrate
+using the conventions for naming from before, and integrate
 both forms of parallelism.
 
 6. Optimisation
 ===============
 
-Our final implementation is a final tweaking pass of the
+Our final implementation is a tweaking pass of the
 parallelised version: we have introduced and exploited
 as much parallelism as we can, but that introduces
 overhead. We now want to balance parallelism versus
@@ -552,7 +553,19 @@ P processors it should run P times faster than on 1 processor.
 5. Submission
 =============
 
+Double-check your names all match up, as I'll be trying
+to create your transforms both by direct instantiation,
+and by pulling them out of the transform registry. Also,
+don't forget that "your_login" does actually mean your
+login needs to be substituted in wherever it is mentioned.
+
 Zip your directory up, and upload it to blackboard. Don't worry about
 cleaning any git files out, but take out any executables or object
 files.
+
+6. Errata
+=========
+
+None yet.
+
 
