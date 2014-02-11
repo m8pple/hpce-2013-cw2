@@ -8,7 +8,7 @@ LDLIBS =
 CPPFLAGS = $(CPPFLAGS) /Ox
 
 # TODO : Indicate where you have put the TBB installer
-TBB_DIR = <where-is-it?>
+TBB_DIR = ..\local
 
 TBB_INC_DIR = $(TBB_DIR)\include
 
@@ -22,7 +22,12 @@ LDFLAGS = $(LDFLAGS) /LIBPATH:$(TBB_LIB_DIR)
 FOURIER_CORE_OBJS = src/fourier_transform.obj src/fourier_transform_register_factories.obj
 
 # implementations
-FOURIER_IMPLEMENTATION_OBJS =  src/fast_fourier_transform.obj	src/direct_fourier_transform.obj 
+FOURIER_IMPLEMENTATION_OBJS =  src/fast_fourier_transform.obj	src/direct_fourier_transform.obj \
+	src\dt10\direct_fourier_transform_parfor.obj \
+	src\dt10\fast_fourier_transform_taskgroup.obj \
+	src\dt10\fast_fourier_transform_parfor.obj \
+	src\dt10\fast_fourier_transform_combined.obj \
+	src\dt10\fast_fourier_transform_opt.obj
 
 FOURIER_OBJS = $(FOURIER_CORE_OBJS) $(FOURIER_IMPLEMENTATION_OBJS)
 
@@ -30,9 +35,11 @@ FOURIER_OBJS = $(FOURIER_CORE_OBJS) $(FOURIER_IMPLEMENTATION_OBJS)
 	$(CPP) $(CPPFLAGS) /c $< /Fo$@
 
 bin\test_fourier_transform.exe : src/test_fourier_transform.cpp $(FOURIER_OBJS)
+	-mkdir bin
 	$(CPP) $(CPPFLAGS) $** /Fe$@ /link $(LDFLAGS) $(LDLIBS)
 
 bin\time_fourier_transform.exe : src/time_fourier_transform.cpp $(FOURIER_OBJS)
+	-mkdir bin
 	$(CPP) $(CPPFLAGS) $** /Fe$@ /link $(LDFLAGS) $(LDLIBS)
 
 all : bin\test_fourier_transform.exe bin\time_fourier_transform.exe
