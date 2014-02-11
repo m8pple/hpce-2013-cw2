@@ -214,7 +214,7 @@ There are three steps in this process:
 
 ### Creating the new fourier transform class
 
-Copy `src/direct_fourier_transform.hpp` into a new
+Copy `src/direct_fourier_transform.cpp` into a new
 file called `src/your_login/direct_fourier_transform_parfor.cpp`.
 Modify the new file so that the contained class is called
 `hpce::your_login::direct_fourier_transform_parfor`, and reports
@@ -339,7 +339,7 @@ must have finished, so we know that x==2 and y==4.
 
 ### Create and register a new class 
 
-Copy `src/fast_fourier_transform.hpp` into a new
+Copy `src/fast_fourier_transform.cpp` into a new
 file called `src/your_login/fast_fourier_transform_taskgroup.cpp`.
 Modify the new file so that the contained class is called
 `hpce::your_login::fast_fourier_transform_taskgroup`, and reports
