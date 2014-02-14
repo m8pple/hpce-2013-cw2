@@ -343,7 +343,7 @@ Copy `src/fast_fourier_transform.cpp` into a new
 file called `src/your_login/fast_fourier_transform_taskgroup.cpp`.
 Modify the new file so that the contained class is called
 `hpce::your_login::fast_fourier_transform_taskgroup`, and reports
-`hpce.your_login.direct_fourier_transform_taskgroup` from name(). Apart
+`hpce.your_login.fast_fourier_transform_taskgroup` from name(). Apart
 from renaming, you don't need to change any functionality yet.
 
 As before, register the implementation with the implementation
