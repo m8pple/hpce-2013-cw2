@@ -28,11 +28,11 @@ FOURIER_IMPLEMENTATION_OBJS =  src/fast_fourier_transform.o	src/direct_fourier_t
 FOURIER_OBJS = $(FOURIER_CORE_OBJS) $(FOURIER_IMPLEMENTATION_OBJS)
 
 bin/test_fourier_transform : src/test_fourier_transform.cpp $(FOURIER_OBJS)
-	-mkdir bin
+	-mkdir -p bin
 	$(CXX) $(CPPFLAGS) $^ -o $@ $(LDFLAGS) $(LDLIBS)
 
 bin/time_fourier_transform : src/time_fourier_transform.cpp $(FOURIER_OBJS)
-	-mkdir bin
+	-mkdir -p bin
 	$(CXX) $(CPPFLAGS) $^ -o $@ $(LDFLAGS) $(LDLIBS)
 
 all : bin/test_fourier_transform bin/time_fourier_transform
