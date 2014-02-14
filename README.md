@@ -176,6 +176,26 @@ and turn it into:
       y[i]=f(x[i]);
     });
 
+If you have problems compiling this, and get loads of cryptic error
+messages, it may be because the types passed to the function
+don't agree. In particular, both the begin and end of the iteration
+range should have the same type. In the example above, `0u` has
+the type `unsigned`, so if `n` had the type `int`, there might
+be a type error (as the iteration type TI can't be both `int` and
+`unsigned`). To resolve it you can either make sure both parts
+have the same time:
+
+tbb::parallel_for((unsigned)0, (unsigned)n, [=](unsigned i){
+  y[i]=f(x[i]);
+});
+
+or you can explicitly state the iteration type:
+
+tbb::parallel_for<unsigned>(0, n, [=](unsigned i){
+  y[i]=f(x[i]);
+});
+
+
 Despite the way it initially appears, parallel_for is
 still a normal function, but we just happen to be passing
 in a variable which is code. The [=] syntax is introducing
@@ -276,6 +296,14 @@ is listed if you build `test_fourier_transform` and do:
 
 Hopefully your implementation still works, as so far the
 execution will be identical.
+
+If your transform doesn't turn up at run-time, or the code won't compile,
+make very sure that you have renamed everything within
+`src/your_login/direct_fourier_transform_parfor.cpp` to the
+new name. Also make sure that the factory function is declared
+as `std::shared_ptr<fourier_transform> hpce::your_login::Create_direct_fourier_transform_parfor()`,
+both in `src/your_login/direct_fourier_transform_parfor.cpp`, and in 
+`src/fourier_transform_register_factories.cpp` (particularly if you get a linker error).
 
 ### Add the parallel_for loop
 
