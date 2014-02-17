@@ -487,10 +487,10 @@ with various values of K. You want to do this step
 first, so that you can test it deterministically.
 
 Note that m gets smaller and smaller as it splits, so
-you need to worry about m<K at the leaves of the
+you need to worry about m < K at the leaves of the
 recursion. A simple solution is to use a guarded
-version, such that if m<=K the original code is used,
-and if m>K the new code is used.
+version, such that if m < = K the original code is used,
+and if m > K the new code is used.
 
 An aside: you may find that the direct transform gets much
 more accurate after this re-write, and now passes all
